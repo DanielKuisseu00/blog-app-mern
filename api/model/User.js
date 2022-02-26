@@ -1,3 +1,4 @@
+const { bool } = require("joi");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
@@ -12,6 +13,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       min: [4, "Password to short"],
+    },
+    isAdmin: {
+      type: Boolean,
     },
     blogs: {
       type: Array,
