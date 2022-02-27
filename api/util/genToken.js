@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const genAccessTOken = (user) => {
+const genAccessToken = (user) => {
   return jwt.sign(
     { _id: user._id, isAdmin: user.isAdmin },
     process.env.JWT_KEY,
@@ -8,7 +8,7 @@ const genAccessTOken = (user) => {
   );
 };
 
-const genRefreshTOken = (user) => {
+const genRefreshToken = (user) => {
   return jwt.sign(
     { _id: user._id, isAdmin: user.isAdmin },
     process.env.JWT_KEY,
@@ -16,5 +16,5 @@ const genRefreshTOken = (user) => {
   );
 };
 
-exports.genAccessTOken = genAccessTOken;
-exports.genRefreshTOken = genRefreshTOken;
+exports.genAccessToken = genAccessToken;
+exports.genRefreshToken = genRefreshToken;

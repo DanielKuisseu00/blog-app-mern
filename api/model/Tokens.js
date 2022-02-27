@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const tokensSchema = new mongoose.Schema({
-  tokens: {
-    type: Array,
+  token: {
+    type: String,
   },
 });
 
