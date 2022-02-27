@@ -43,7 +43,7 @@ router.post("/register", async (req, res) => {
 
     const savedToken = await tokens.save();
 
-    return res.status(200).json({ savedUser, accessToken, refreshToken });
+    return res.status(200).json({ user: savedUser, accessToken, refreshToken });
   } catch (error) {
     console.log(error);
   }
@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
 
   await tokens.save();
 
-  return res.status(200).json({ foundUser, accessToken, refreshToken });
+  return res.status(200).json({ user: foundUser, accessToken, refreshToken });
 });
 
 router.post("/refresh", async (req, res) => {
@@ -97,7 +97,34 @@ router.post("/refresh", async (req, res) => {
   jwt.verify(refreshToken, process.env.JWT_KEY, (err, user) => {
     if (err) return res.status(500).json("token not valid");
 
-    await Tokens.deleteOne({ token: foundToken });
+    // deleting old refresh token
+
+    try {
+      Tokens.deleteOne({ token: foundToken });
+
+      //   creating new tokens
+      const newAccessToken = genAccessToken(user);
+      const newRefreshToken = genRefreshToken(user);
+
+      const token = new Tokens({
+        token: newRefreshToken,
+      });
+
+      token
+        .save()
+        .then(() => {
+          return res.status(200).json({
+            user,
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+          });
+        })
+        .catch((err) => {
+          return res.status(500).json(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   });
 });
 
