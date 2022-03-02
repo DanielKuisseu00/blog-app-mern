@@ -10,4 +10,14 @@ const validate = (data) => {
   return schema.validate(data);
 };
 
-module.exports = validate;
+exports.validate = validate;
+
+const validateBlog = (data) => {
+  const schema = joi.object({
+    title: joi.string().min(4).required(),
+    subtitle: joi.string().min(4).required(),
+    content: joi.string().min(4).required(),
+  });
+
+  return schema.validate(data);
+};
