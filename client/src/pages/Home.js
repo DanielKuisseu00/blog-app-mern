@@ -3,11 +3,12 @@ import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import HeroBlogPost from "../components/HeroBlogPost";
 import { blogData } from "../data";
+import BlogCard from "../components/BlogCard";
 
 const Container = styled.div`
   background: #e4e6ec;
   height: 100%;
-  width: 100vw;
+  max-width: 100%;
 `;
 
 const Wrapper = styled.div`
@@ -18,6 +19,12 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   font-weight: 600;
   font-size: 100px;
+`;
+
+const BlogCardSection = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40px;
 `;
 
 const Home = () => {
@@ -34,6 +41,19 @@ const Home = () => {
           Title={firstBlog.title}
           Subtitle={firstBlog.subtitle}
         />
+        <BlogCardSection>
+          {blogData.map((blog) => {
+            return (
+              <BlogCard
+                key={blog.id}
+                Image={blog.image}
+                Date={blog.createdDate.toDateString().toLocaleLowerCase()}
+                Title={blog.title}
+                Subtitle={blog.subtitle}
+              />
+            );
+          })}
+        </BlogCardSection>
       </Wrapper>
     </Container>
   );

@@ -1,5 +1,8 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { zoomIn } from "react-animations";
+
+const zoomInAnimation = keyframes`${zoomIn}`;
 
 const Container = styled.div`
   display: flex;
@@ -7,6 +10,7 @@ const Container = styled.div`
   height: 400px;
   cursor: pointer;
   margin-top: 30px;
+  animation: 1s ${zoomInAnimation};
 `;
 
 const Left = styled.div`

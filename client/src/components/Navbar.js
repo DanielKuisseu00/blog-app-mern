@@ -61,6 +61,12 @@ const Navbar = () => {
         <Link style={{ textDecoration: "none" }} to="/create">
           <Item>Create Post</Item>
         </Link>
+        <Link style={{ textDecoration: "none" }} to="/login">
+          <Item>Login</Item>
+        </Link>
+        <Link style={{ textDecoration: "none" }} to="/register">
+          <Item>Register</Item>
+        </Link>
       </Navigation>
     </Container>
   );
