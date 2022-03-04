@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
-  width: 70%;
-  background: pink;
+  width: 80%;
   height: 400px;
   cursor: pointer;
+  margin-top: 30px;
 `;
 
 const Left = styled.div`
@@ -24,26 +24,33 @@ const Right = styled.div`
   padding-left: 35px;
 `;
 
-const Date = styled.p``;
+const Date = styled.p`
+  color: #a7a8ad;
+  font-weight: bold;
+`;
 
-const Title = styled.h2``;
+const Title = styled.h2`
+  font-weight: 500;
+  font-size: 70px;
+`;
 
-const Subtitle = styled.h3``;
+const Subtitle = styled.h3`
+  color: #696969;
+  font-weight: 400;
+  font-size: 15px;
+`;
 
-const HeroBlogPost = ({ image }) => {
+const HeroBlogPost = (props) => {
+  console.log(props.Image);
   return (
     <Container>
       <Left>
-        <Image
-          src={
-            "https://images.unsplash.com/photo-1638913974023-cef988e81629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-          }
-        />
+        <Image src={props.Image} />
       </Left>
       <Right>
-        <Date> March 5, 2022</Date>
-        <Title>Test Title</Title>
-        <Subtitle>Test Subttitle</Subtitle>
+        <Date>{props.Date.toDateString()}</Date>
+        <Title>{props.Title}</Title>
+        <Subtitle>{props.Subtitle}</Subtitle>
       </Right>
     </Container>
   );

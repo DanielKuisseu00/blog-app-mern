@@ -2,10 +2,11 @@ import react from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import HeroBlogPost from "../components/HeroBlogPost";
+import { blogData } from "../data";
 
 const Container = styled.div`
   background: #e4e6ec;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 `;
 
@@ -20,12 +21,19 @@ const Title = styled.h1`
 `;
 
 const Home = () => {
+  const firstBlog = blogData[0];
+
   return (
     <Container>
       <Navbar />
       <Wrapper>
         <Title>The Blog</Title>
-        <HeroBlogPost />
+        <HeroBlogPost
+          Image={firstBlog.image}
+          Date={firstBlog.createdDate}
+          Title={firstBlog.title}
+          Subtitle={firstBlog.subtitle}
+        />
       </Wrapper>
     </Container>
   );
