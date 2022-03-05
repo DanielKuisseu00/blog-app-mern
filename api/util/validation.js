@@ -21,3 +21,5 @@ const validateBlog = (data) => {
 
   return schema.validate(data);
 };
+
+exports.validateBlog = validateBlog;

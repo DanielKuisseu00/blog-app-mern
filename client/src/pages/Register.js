@@ -37,7 +37,7 @@ const Form = styled.form`
 `;
 
 const Label = styled.label`
-  fontc-weight: bold;
+  font-weight: bold;
   color: #9797b3;
   font-size: 13px;
   margin-bottom: 7px;

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Container = styled.div`
   max-width: 98%;
@@ -50,23 +50,51 @@ const Navbar = () => {
   return (
     <Container>
       <LogoWrapper>
-        <Link style={{ textDecoration: "none" }} to="/">
+        <NavLink style={{ textDecoration: "none" }} to="/">
           <Logo>Blogie</Logo>
-        </Link>
+        </NavLink>
       </LogoWrapper>
       <Navigation>
-        <Link style={{ textDecoration: "none" }} to="/account">
+        <NavLink
+          activeStyle={{
+            fontWeight: "bold",
+            color: "blue",
+          }}
+          style={{ textDecoration: "none" }}
+          to="/account"
+        >
           <Item>My Page</Item>
-        </Link>
-        <Link style={{ textDecoration: "none" }} to="/create">
+        </NavLink>
+        <NavLink
+          activeStyle={{
+            fontWeight: "bold",
+            color: "blue",
+          }}
+          style={{ textDecoration: "none" }}
+          to="/create"
+        >
           <Item>Create Post</Item>
-        </Link>
-        <Link style={{ textDecoration: "none" }} to="/login">
+        </NavLink>
+        <NavLink
+          activeStyle={{
+            fontWeight: "bold",
+            color: "blue",
+          }}
+          style={{ textDecoration: "none" }}
+          to="/login"
+        >
           <Item>Login</Item>
-        </Link>
-        <Link style={{ textDecoration: "none" }} to="/register">
+        </NavLink>
+        <NavLink
+          activeStyle={{
+            fontWeight: "bold",
+            color: "blue",
+          }}
+          style={{ textDecoration: "none" }}
+          to="/register"
+        >
           <Item>Register</Item>
-        </Link>
+        </NavLink>
       </Navigation>
     </Container>
   );

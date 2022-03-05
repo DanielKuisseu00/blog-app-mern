@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import { addUser } from "../redux/userSlice";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const Container = styled.div`
   width: 100vw;
@@ -37,7 +41,7 @@ const Form = styled.form`
 `;
 
 const Label = styled.label`
-  fontc-weight: bold;
+  font-weight: bold;
   color: #9797b3;
   font-size: 13px;
   margin-bottom: 7px;
@@ -85,6 +89,31 @@ const Logo = styled.h1`
 `;
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const login = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        username,
+        password,
+      });
+
+      const foundUser = res.data;
+      setUser(foundUser);
+      console.log(user);
+      res.data && dispatch(addUser(foundUser));
+      res.data && history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Container>
       <Left>
@@ -95,11 +124,19 @@ const Login = () => {
               Use your username and password to login to Blogie
             </Subtitle>
           </TopContent>
-          <Form>
+          <Form onSubmit={login}>
             <Label for="username">username</Label>
-            <Input type={"text"} name="username"></Input>
+            <Input
+              onChange={(e) => setUsername(e.target.value)}
+              type={"text"}
+              name="username"
+            ></Input>
             <Label for="password">Password</Label>
-            <Input type={"password"} name="password"></Input>
+            <Input
+              onChange={(e) => setPassword(e.target.value)}
+              type={"password"}
+              name="password"
+            ></Input>
             <Button type="submit">Login</Button>
           </Form>
         </Wrapper>
