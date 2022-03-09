@@ -6,8 +6,6 @@ const uploadFile = require("../util/s3");
 const { validateBlog } = require("../util/validation");
 const User = require("../model/User");
 
-const upload = multer({ dest: __dirname + "/images" });
-
 router.get("/", async (req, res) => {
   try {
     const blogs = await Blog.find();
@@ -32,8 +30,12 @@ router.get("/:blogId", async (req, res) => {
   }
 });
 
+
+const upload = multer({ dest: "./images" });
+
 router.post("/blog", verify, upload.single("image"), async (req, res) => {
   // validating content sent to server
+
   const { error } = validateBlog(req.body);
 
   if (error)
@@ -42,11 +44,11 @@ router.post("/blog", verify, upload.single("image"), async (req, res) => {
       .json("Your blog doesn't seemed to be filled out correctly");
 
   // Blog components
-  const imageLink = await uploadFile(req.file).Location;
+  const imageLink = await (await uploadFile(req.file)).Location;
   const title = req.body.title;
   const subtitle = req.body.subtitle;
   const content = req.body.content;
-  const author = await User.findOne({ _id: req.user._id }).username;
+  const user = await User.findOne({ _id: req.user._id });
 
   // creaticng blog object to save to mongodb
 
@@ -55,12 +57,12 @@ router.post("/blog", verify, upload.single("image"), async (req, res) => {
     subtitle,
     content,
     image: imageLink,
-    author: author,
+    author: user.username,
   });
 
   try {
     blogPost.save();
-    return res.status(200).json("saved blog");
+    return res.status(200).json(imageLink);
   } catch (err) {
     return res.status(500).json(err);
   }

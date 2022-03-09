@@ -45,7 +45,6 @@ const Subtitle = styled.h3`
 `;
 
 const HeroBlogPost = (props) => {
-  console.log(props.Image);
   return (
     <Container>
       <Left>

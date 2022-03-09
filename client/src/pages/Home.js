@@ -1,9 +1,11 @@
-import react from "react";
+import react, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import HeroBlogPost from "../components/HeroBlogPost";
 import { blogData } from "../data";
 import BlogCard from "../components/BlogCard";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Container = styled.div`
   background: #e4e6ec;
@@ -29,6 +31,28 @@ const BlogCardSection = styled.div`
 
 const Home = () => {
   const firstBlog = blogData[0];
+  const user = useSelector((state) => state.user.value);
+  const [blogs, setBlogs] = useState([]);
+  console.log(user);
+
+  const axiosInstance = axios.create({
+    baseURL: "http://localhost:5000/api/blogs",
+  });
+
+  useEffect(async () => {
+    try {
+      const getBlogs = async () => {
+        const res = await axiosInstance.get("/");
+        return res;
+      };
+
+      const response = await getBlogs();
+      console.log(response.data);
+      setBlogs(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <Container>
@@ -42,12 +66,12 @@ const Home = () => {
           Subtitle={firstBlog.subtitle}
         />
         <BlogCardSection>
-          {blogData.map((blog) => {
+          {blogs.map((blog) => {
             return (
               <BlogCard
-                key={blog.id}
+                key={blog._id}
                 Image={blog.image}
-                Date={blog.createdDate.toDateString().toLocaleLowerCase()}
+                Date={blog.createdAt}
                 Title={blog.title}
                 Subtitle={blog.subtitle}
               />

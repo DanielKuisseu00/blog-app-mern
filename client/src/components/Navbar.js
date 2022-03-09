@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   max-width: 98%;
@@ -47,6 +48,7 @@ const Item = styled.li`
 `;
 
 const Navbar = () => {
+  const user = useSelector((state) => state.user.value);
   return (
     <Container>
       <LogoWrapper>

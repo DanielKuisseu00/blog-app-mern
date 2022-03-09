@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   background: #e4e6ec;
@@ -79,22 +81,48 @@ const Create = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
-  const [file, setFile] = useState();
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
+  const [image, setImage] = useState();
+  const user = useSelector((state) => state.user.value);
 
-  const submit = (e) => {
+  const axiosBlog = axios.create({
+    baseURL: "http://localhost:5000/api/blogs",
+    headers: {
+      "Content-Type": "multipart/form-data",
+      auhtorization: `Bearer ${user.accessToken}`,
+    },
+  });
+
+  const postBlog = async ({ title, subtitle, content, image }) => {
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("subtitle", subtitle);
+    formData.append("content", content);
+    formData.append("image", image);
+
+    try {
+      const res = await axiosBlog.post("blog", formData);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const submit = async (e) => {
     e.preventDefault();
 
     try {
-    } catch (e) {
-      
+      const result = await postBlog({ title, subtitle, content, image });
+      console.log(result);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const fileSelected = (e) => {
-    const file = e.target.files[0];
-    setFile(file);
+    console.log(e.target.files[0]);
+    const foundImage = e.target.files[0];
+    setImage(foundImage);
   };
 
   return (
@@ -105,19 +133,28 @@ const Create = () => {
         <FormWrapper>
           <Form onSubmit={submit}>
             <Label>Title</Label>
-            <Input onChange={(e) => setTitle(e.target.value)} type="text" />
+            <Input
+              name="title"
+              onChange={(e) => setTitle(e.target.value)}
+              type="text"
+            />
 
             <Label>Subtitle</Label>
-            <Input onChange={(e) => setSubtitle(e.target.value)} type="text" />
+            <Input
+              name="subtitle"
+              onChange={(e) => setSubtitle(e.target.value)}
+              type="text"
+            />
 
             <Label>Content</Label>
             <ContentInput
+              name="content"
               onChange={(e) => setContent(e.target.value)}
               rows="5"
               cols="80"
             />
 
-            <Input onChanage={fileSelected} type="file" />
+            <Input onChange={fileSelected} type="file" />
             <Button type="submit">Create</Button>
           </Form>
         </FormWrapper>
