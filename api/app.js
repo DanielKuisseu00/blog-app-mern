@@ -8,14 +8,18 @@ const authRoute = require("./routes/auth");
 const blogRoute = require("./routes/blog");
 
 try {
-  mongoose.connect(
-    "mongodb+srv://danielkissner00:Blackgoku199@blog-db.xpacr.mongodb.net/blog-db?retryWrites=true&w=majority"
-  );
+  mongoose.connect(process.env.MONGO_URL);
 
   console.log("connected to db");
 } catch (err) {
   console.log(err);
 }
+
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/client/build", "index.html"));
+});
 
 // middlewares
 app.use(express.json());

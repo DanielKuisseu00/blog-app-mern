@@ -23,6 +23,10 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: [true, "author is requied"],
     },
+    date: {
+      type: String,
+      default: new Date().toDateString(),
+    },
   },
   { timestamps: true }
 );
